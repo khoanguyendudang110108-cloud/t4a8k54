@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Tổ 4</title>
+  <style>
+    :root{
+      --bg:#f8f9fa; --paper:#fff; --muted:#6a737d; --link:#0645ad; --accent:#2a7ae2;
+      --container:1000px;
+    }
+    *{box-sizing:border-box}
+    body{font-family:'Inter', system-ui, sans-serif; background:var(--bg); color:#222; margin:0;}
+    header{background:linear-gradient(#f6f7f8,#eef1f4);border-bottom:1px solid #dfe3e6}
+    .topbar{max-width:var(--container);margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:12px}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700;font-size:20px;color:#111}
+    .brand img{width:34px;height:34px}
+    .search{margin-left:auto}
+    .search input{padding:8px 10px;border:1px solid #cfd6db;border-radius:3px;font-size:14px}
+
+    .wrap{max-width:var(--container);margin:26px auto;padding:0 16px;display:grid;grid-template-columns:280px 1fr;gap:28px}
+
+    nav.left{background:var(--paper);border:1px solid #dfe3e6;padding:12px;border-radius:4px}
+    nav.left h2{margin:0 0 10px 0;font-size:16px;font-weight:600}
+    ul.members{list-style:none;margin:0;padding:0}
+    ul.members li{padding:8px 6px;border-radius:3px}
+    ul.members li a{display:block;color:var(--link);text-decoration:none;font-weight:600}
+    ul.members li a:hover{background:#eef5ff}
+    ul.members li .role{display:block;color:var(--muted);font-weight:400;font-size:13px}
+
+    .content{background:var(--paper);border:1px solid #dfe3e6;padding:20px;border-radius:4px}
+    .breadcrumb{color:var(--muted);font-size:13px;margin-bottom:8px}
+    .title{font-size:28px;margin:4px 0 12px 0}
+    .infobox{float:right;width:220px;margin-left:18px;border:1px solid #dfe3e6;padding:10px;background:#fbfcfe;border-radius:3px}
+    .infobox img{width:100%;height:auto;border-radius:4px;display:block}
+    .infobox dl{margin:10px 0 0 0}
+    .infobox dt{font-weight:700;font-size:13px}
+    .infobox dd{margin:0 0 8px 0;color:var(--muted);font-size:14px}
+
+    p{line-height:1.6;margin-top:0}
+    h3{margin-top:20px;font-size:18px}
+    .section{margin-bottom:14px}
+
+    footer{max-width:var(--container);margin:30px auto 60px;padding:0 16px;color:var(--muted);font-size:14px}
+    @media (max-width:820px){
+      .wrap{grid-template-columns:1fr;}
+      .infobox{float:none;width:100%;margin:0 0 12px 0}
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="topbar">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/63/Wikipedia-logo.png" alt="Wikipedia logo">
+        <span>Tổ 4 A8 K54</span>
+      </div>
+      <div class="search">
+        <input id="searchBox" placeholder="Tìm thành viên (gõ tên)…" aria-label="Tìm thành viên" />
+      </div>
+    </div>
+  </header>
+
+  <div class="wrap">
+<nav class="left" aria-label="Danh sách thành viên">
+      <h2>Thành viên</h2>
+      <ul class="members" id="membersList"></ul>
+    </nav>
+
+    <main class="content" id="mainContent" role="main">
+      <div id="pageRoot"></div>
+    </main>
+  </div>
+
+  <footer>
+    © <span id="year"></span> Profile thành viên tổ 4.
+  </footer>
+
+  <script>
+    const members = [
+  {id:'nguyen-dang-nguyen-vu',name:'Nguyễn Đăng Nguyên Vũ',role:' ',photo:'nguyenvu.jpg',bio:'Vux Nguyeenx, 18/2, Bảo Bình, giờ ra lò: 7h kém 10',contact:'https://www.facebook.com/VuxNguyeenx18x',more:'Thich tập gym, spam bicep qua ngày, fan MU, và thich nghe truyện ma lúc đi ngủ'},
+  {id:'nguyen-nam-anh',name:'Nguyễn Nam Anh',role:'',photo:'nguyennamanh.png',bio:'Không có Internet',contact:'https://www.facebook.com/nam.anh.719640',more:'Hãy thử kiểm tra cáp mạng,modem và bộ định tuyến. Kết nối lại với Wi-Fi Chạy Chẩn đoán mạng của Windows'},
+  {id:'nguyen-du-dang-khoa',name:'Nguyễn Dự Đăng Khoa',role:'',photo:'khoa.png',bio:'Nạn nhân của phụ huynh Châu Á,đặc cách không bị thu điện thoại,Tokubu',contact:'https://www.facebook.com/pitbull2k8/',more:'Không tiktok,không ig, không thread,không tele,không chỉ facebook zalo Sở thich:đọc sách, nghe nhạc, game,kamen rider, nhựa, @xuanpacdontlie. Sở trường:lải nhải, kết thúc cuộc trò chuyện,ăn mày quá khứ.'},
+  {id:'nguyen-gia-khai',name:'Nguyễn Gia Khải',role:' ',photo:'nguyengiakhai.jpg',bio:'sinh ra vào ngày 8/6/2008,3 tháng biết lật,6 tháng biết ngồi,1 tuổi biết đi,3 tuổi biết nói,6 tuổi vào lớp 1,Hiện đang học lớp 12',contact:'https://www.facebook.com/GiaKhai08',more:'Sở thích: thích ngủ nhưng hay ngủ muộn. Thể thao: đá bóng, chạy deadline '},
+  {id:'hoang-quynh-anh',name:'Hoàng Quỳnh Anh',role:' ',photo:'hoangquynhanh.jpg',bio:'H12/4 quê Hà Nội.',contact:'',more:'Sở thích: dưa hấu, leo núi.'},
+  {id:'pham-anh-duong',name:'Phạm Ánh Dương',role:' ',photo:'phamanhduong.jpg',bio:'11 năm hạnh kiểm tốt, 12 năm con ngoan trò giỏi con ngoan của ba mẹ',contact:'https://www.facebook.com/pham.anh.duong.186023',more:'Sở thích: Con Bình Minh. Sở trường:lải nhải, học j ngu đấy '},
+  {id:'duong-nhu-quynh',name:'Dương Như Quỳnh',role:' ',photo:'duongnhuquynh.jpg',bio:'Dương Như Quỳnh 12A8 K54. Yêu màu hồng và ghét chiến tranh, chủ tịch khu tự trị dbc. Cao 1m68',contact:'https://www.facebook.com/ruamechanh',more:'Sở thích: ăn hải sản uống nước ngọt.'},
+  {id:'nguyen-thanh-van',name:'Nguyễn Thanh Vân',role:' ',photo:'thanhvan.jpg',bio:'Looks like you are not connected to the internet',contact:'https://www.facebook.com/tvandeii08',more:'Lets get you back online! ERR_INTERNET_DISCONNECTED'},
+  {id:'ha-vu-mai-trang',name:'Hạ Vũ Mai Trang',role:'',photo:'tmai.jpg',bio:'Họ tên: @mai_roihoc_trang Cùng năm với thế hệ 2k8',contact:'https://www.facebook.com/mai.roihoc.trang',more:'Nô lệ của Mihoyo,"90% con bạc đều dừng lại trước khi thắng lơn, còn t chưa dừng lại".Biết hết trend TikTok nhưng không biết định luật Ôm.         Ước mơ: Thi xong vẫn còn nhớ mình là ai.'},
+  {id:'doan-thuy-an',name:'Đoàn Thụy An',role:' ',photo:'thyan.jpg',bio:'Đoàn Thụy An/thyan.Năm sinh: năm nào cũng xinh thanks',contact:'https://www.facebook.com/ttcrgd',more:'Phim: the summer i turned pretty, stranger things. Nhạc: rosie - Rosé, Taylor Swift. Game: Valorant.Thành tích nổi bật: chưa hiểu bài nhưng hiểu đời. Uớc mơ: ngủ đủ 8 tiếng trong 5 phút'},
+  {id:'vu-ha-trang',name:'Vũ Hà Trang',role:' ',photo:'vuhatrang.jpg',bio:'1 tuổi biết đi 2 tuổi biết lật 3 tuổi biết chọc tay ổ điện',contact:'https://www.facebook.com/vu.htrng183#',more:'Sở thích:chó mèo béo, lò vi sóng,bé trai-_- Sở trường:ăn(hại), ngủ ngày '},
+{id:'tran-bao-ngoc',name:'Trần Bảo Ngọc',role:' ',photo:'tranbaongoc.jpg',bio:'cựu hs thcs',contact:'https://www.facebook.com/trbngocc.pugiecc',more:'sở thích:ăn không ngồi rồi, ăn lông ở lỗ, ăn không nói có, ăn năn sám hối,ăn cháo đá bát,ăn dầm nằm dề'}
+];
+
+    const membersList=document.getElementById('membersList');
+    function renderList(filter=''){
+      membersList.innerHTML='';
+      const q=filter.trim().toLowerCase();
+      members.filter(m=>m.name.toLowerCase().includes(q)||m.role.toLowerCase().includes(q)).forEach(m=>{
+        const li=document.createElement('li');
+        const a=document.createElement('a');
+        a.href=`#${m.id}`;
+        a.textContent=m.name;
+        const role=document.createElement('span');
+        role.className='role';
+        role.textContent=m.role;
+        li.appendChild(a);li.appendChild(role);membersList.appendChild(li);
+      });
+      if(membersList.children.length===0)membersList.innerHTML='<li style="color:var(--muted)">Không tìm thấy</li>';
+    }
+
+    const pageRoot=document.getElementById('pageRoot');
+    function renderHome(){
+      document.title='Tổ 4';
+      pageRoot.innerHTML=`<div class="breadcrumb">Trang chủ &rsaquo; Giới thiệu</div>
+        <h1 class="title">Giới thiệu tổ</h1>
+        <p>Chào mừng đến trang giới thiệu của tổ 4. Nhấn vào tên để xem trang chi tiết từng thành viên.</p>
+        <div class="section"><h3>Các thành viên</h3><ul>${members.map(m=>`<li><a href='#${m.id}'>${m.name}</a> — <span style='color:var(--muted)'>${m.role}</span></li>`).join('')}</ul></div>`;
+    }
+
+    function renderMember(id){
+      const m=members.find(x=>x.id===id);
+      if(!m)return renderNotFound(id);
+      document.title=m.name+' — Danh bạ thành viên';
+      pageRoot.innerHTML=`<div class='breadcrumb'><a href='#'>Trang chủ</a> &rsaquo; ${m.name}</div>
+        <h1 class='title'>${m.name}</h1>
+        <aside class='infobox'><img src='${m.photo}' alt='Ảnh ${m.name}'/><dl><dd>${m.role}</dd><dt>Liên hệ</dt><dd><a href='mailto:${m.contact}'>${m.name}</a></dd></dl></aside>
+        <div class='section'><h3>Tiểu sử</h3><p>${m.bio}</p></div>
+        <div class='section'><h3>Kỹ năng & sở thích</h3><p>${m.more}</p></div>`;
+      window.scrollTo(0,0);
+    }
+
+    function renderNotFound(id){
+      document.title='Không tìm thấy — Danh bạ';
+      pageRoot.innerHTML=`<div class='breadcrumb'><a href='#'>Trang chủ</a> &rsaquo; Không tìm thấy</div><h1 class='title'>Không tìm thấy: ${id}</h1>`;
+    }
+
+    function router(){const hash=location.hash.replace('#','');if(!hash)return renderHome();renderMember(hash);}
+
+    const searchBox=document.getElementById('searchBox');
+    searchBox.addEventListener('input',e=>renderList(e.target.value));
+    document.getElementById('year').textContent=new Date().getFullYear();
+    renderList();window.addEventListener('hashchange',router);
+if(location.hash)router();else renderHome();
+  </script>
+</body>
+</html>
